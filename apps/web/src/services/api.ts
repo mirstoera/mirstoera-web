@@ -26,7 +26,19 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     credentials: 'include', // Include HttpOnly session cookies
   });
 
-  const json = (await res.json()) as ApiResponse<T>;
+  const contentType = res.headers.get('content-type') || '';
+  let json: ApiResponse<T>;
+
+  if (contentType.includes('application/json')) {
+    json = (await res.json()) as ApiResponse<T>;
+  } else {
+    const rawText = await res.text();
+    throw new Error(
+      res.status === 502 || res.status === 504 || res.status === 404
+        ? `Backend API unreachable (${res.status}). The server or API endpoint is not running.`
+        : `Invalid API response (${res.status}): ${rawText.slice(0, 100)}`
+    );
+  }
 
   if (!res.ok || !json.success) {
     const error = new Error(json.error?.message || `Request failed with status ${res.status}`);
