@@ -12,7 +12,7 @@ import {
   AdminUserEntity,
 } from '@momera/shared';
 
-const API_BASE = '/api';
+const API_BASE = (import.meta.env.VITE_API_URL as string) || '/api';
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers || {});
