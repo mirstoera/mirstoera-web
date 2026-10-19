@@ -1,13 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run build -w packages/shared && npm run build -w apps/web",
+  "buildCommand": "npm run build:all",
   "outputDirectory": "apps/web/dist",
   "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/api/:match*",
+      "destination": "/api/:match*"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ],

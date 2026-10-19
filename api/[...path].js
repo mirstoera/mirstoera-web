@@ -25,9 +25,24 @@ async function getApp() {
 }
 
 export default async function handler(req, res) {
-  if (req.url && !req.url.startsWith('/api')) {
-    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  try {
+    if (req.url && !req.url.startsWith('/api')) {
+      req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+    }
+    const app = await getApp();
+    return app(req, res);
+  } catch (err) {
+    console.error('[API Handler Error]:', err);
+    res.setHeader('Content-Type', 'application/json');
+    res.statusCode = 500;
+    return res.end(
+      JSON.stringify({
+        success: false,
+        error: {
+          code: 'SERVER_INITIALIZATION_ERROR',
+          message: err?.message || 'Server initialization failed on serverless container.',
+        },
+      })
+    );
   }
-  const app = await getApp();
-  return app(req, res);
 }
