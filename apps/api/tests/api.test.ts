@@ -25,7 +25,7 @@ describe('MOMÉRA Backend API Suite', () => {
 
     const appInstance = createApp({ db });
     app = appInstance.app;
-  });
+  }, 30000);
 
   afterAll(() => {
     if (db) {

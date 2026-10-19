@@ -1,4 +1,6 @@
 import express, { Express } from 'express';
+import path from 'node:path';
+import fs from 'node:fs';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -89,7 +91,26 @@ export function createApp(deps: AppDependencies = {}): { app: Express; db: Datab
   app.use('/api', createPublicRoutes(publicController));
   app.use('/api/admin', createAdminRoutes(adminController, adminRepo));
 
-  // 404 & Error Handling
+  // Unified Frontend Static Assets & SPA Routing (Combines Frontend + Backend in ONE)
+  const candidateDistPaths = [
+    path.resolve(process.cwd(), 'apps/web/dist'),
+    path.resolve(process.cwd(), '../web/dist'),
+    path.resolve(process.cwd(), '../../apps/web/dist'),
+    path.resolve(process.cwd(), 'dist'),
+  ];
+  const webDistPath = candidateDistPaths.find((p) => fs.existsSync(path.join(p, 'index.html')));
+
+  if (webDistPath) {
+    app.use(express.static(webDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) {
+        return next();
+      }
+      res.sendFile(path.join(webDistPath, 'index.html'));
+    });
+  }
+
+  // 404 & Error Handling for unmatched API endpoints
   app.use(notFoundHandler);
   app.use(errorHandler);
 

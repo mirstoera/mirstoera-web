@@ -236,14 +236,6 @@ export const RoyalFooter: React.FC = () => {
                   Booking Conditions & Guidelines
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/admin/login"
-                  className="text-amber-400/80 hover:text-amber-300 transition-colors font-mono"
-                >
-                  Staff Portal Login →
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

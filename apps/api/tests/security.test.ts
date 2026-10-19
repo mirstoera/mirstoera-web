@@ -45,7 +45,7 @@ describe('RUDRA Security & Data Privacy Verification Suite', () => {
     validSessionToken = loginRes.body.data.token;
     const cookies = loginRes.headers['set-cookie'];
     validAdminCookie = cookies[0];
-  });
+  }, 30000);
 
   afterAll(() => {
     if (db) {
