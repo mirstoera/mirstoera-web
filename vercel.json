@@ -3,14 +3,9 @@
   "installCommand": "npm install --include=dev",
   "buildCommand": "npm run build:all",
   "outputDirectory": "apps/web/dist",
-  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/api/:match*",
-      "destination": "/api/:match*"
-    },
-    {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
