@@ -189,6 +189,20 @@ const routes = [
     h1: 'Booking Conditions',
     snippet: 'Transparent business guidelines, venue permission obligations, and safety policies.',
   },
+  {
+    path: '/admin/login',
+    title: 'MIRSTOERA Concierge Portal | Admin Login',
+    description: 'Internal concierge portal for MIRSTOERA booking administration.',
+    h1: 'MIRSTOERA Concierge Portal',
+    snippet: 'Internal administrative access.',
+  },
+  {
+    path: '/admin',
+    title: 'MIRSTOERA Concierge Portal | Dashboard',
+    description: 'Internal concierge portal for MIRSTOERA booking administration.',
+    h1: 'MIRSTOERA Concierge Portal',
+    snippet: 'Internal administrative access.',
+  },
 ];
 
 async function prerender() {
